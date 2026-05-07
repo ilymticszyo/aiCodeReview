@@ -1,0 +1,84 @@
+server:
+  port: ${SERVER_PORT:5002}
+
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/ai_review?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC}
+    driver-class-name: ${DB_DRIVER:com.mysql.cj.jdbc.Driver}
+    username: ${DB_USER:root}
+    password: ${DB_PASSWORD:821541}
+  jpa:
+    database-platform: ${DB_PLATFORM:org.hibernate.dialect.MySQLDialect}
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+
+# LLM Configuration
+llm:
+  provider: ${LLM_PROVIDER:deepseek}
+  openai:
+    api-key: ${OPENAI_API_KEY:}
+    base-url: ${OPENAI_API_BASE_URL:https://api.openai.com/v1}
+    model: ${OPENAI_API_MODEL:gpt-3.5-turbo}
+  deepseek:
+    api-key: ${DEEPSEEK_API_KEY:}
+    base-url: ${DEEPSEEK_API_BASE_URL:https://api.deepseek.com}
+    model: ${DEEPSEEK_API_MODEL:deepseek-chat}
+  qwen:
+    api-key: ${QWEN_API_KEY:}
+    base-url: ${QWEN_API_BASE_URL:https://dashscope.aliyuncs.com/compatible-mode/v1}
+    model: ${QWEN_API_MODEL:qwen-turbo}
+  glm:
+    api-key: ${GLM_API_KEY:}
+    base-url: ${GLM_API_BASE_URL:https://open.bigmodel.cn}
+    model: ${GLM_API_MODEL:glm-4.7-flash}
+
+# Git Platform Configuration
+gitlab:
+  access-token: ${GITLAB_ACCESS_TOKEN:}
+  url: ${GITLAB_URL:https://gitlab.com}
+
+github:
+  access-token: ${GITHUB_ACCESS_TOKEN:}
+  url: ${GITHUB_URL:https://api.github.com}
+
+gitea:
+  access-token: ${GITEA_ACCESS_TOKEN:}
+  url: ${GITEA_URL:}
+  use-issue-mode: ${GITEA_USE_ISSUE_MODE:true}
+
+# Review Configuration
+review:
+  supported-extensions: ${SUPPORTED_EXTENSIONS:.java,.py,.php,.yml,.vue,.go,.c,.cpp,.h,.js,.css,.md,.sql,.ts,.tsx,.jsx}
+  style: ${REVIEW_STYLE:humorous}
+  max-tokens: ${REVIEW_MAX_TOKENS:10000}
+  push-enabled: ${PUSH_REVIEW_ENABLED:true}
+  only-protected-branches: ${MERGE_REVIEW_ONLY_PROTECTED_BRANCHES_ENABLED:true}
+  only-branch-name: ${MERGE_REVIEW_ONLY_BRANCH_NAME:main,develop}
+
+# Notification Configuration
+notification:
+  dingtalk:
+    enabled: ${DINGTALK_ENABLED:false}
+    webhook-url: ${DINGTALK_WEBHOOK_URL:}
+  wecom:
+    enabled: ${WECOM_ENABLED:false}
+    webhook-url: ${WECOM_BOT_WEBHOOK_URL:}
+  feishu:
+    enabled: ${FEISHU_ENABLED:true}
+    webhook-url: ${FEISHU_WEBHOOK_URL:https://open.feishu.cn/open-apis/bot/v2/hook/17d947d2-9c3f-4bf5-b710-60fffe8a836f}
+  extra-webhook:
+    enabled: ${EXTRA_WEBHOOK_ENABLED:false}
+    url: ${EXTRA_WEBHOOK_URL:}
+
+# Scheduler Configuration
+scheduler:
+  report-cron: ${REPORT_CRONTAB_EXPRESSION:0 0 18 * * MON-FRI}
+
+logging:
+  level:
+    com.aireviewer: INFO
+    org.springframework: WARN

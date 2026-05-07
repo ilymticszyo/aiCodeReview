@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python *)",
+      "Bash(curl -fsSL \"https://json.schemastore.org/claude-code-settings.json\")",
+      "Bash(curl *)",
+      "Skill(update-config)",
+      "mcp__github__get_file_contents",
+      "Bash(cp *)",
+      "Bash(npm *)",
+      "Bash(npx -y ccstatusline@latest)"
+    ]
+  }
+}
