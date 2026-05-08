@@ -70,6 +70,7 @@ notification:
   feishu:
     enabled: ${FEISHU_ENABLED:true}
     webhook-url: ${FEISHU_WEBHOOK_URL:https://open.feishu.cn/open-apis/bot/v2/hook/17d947d2-9c3f-4bf5-b710-60fffe8a836f}
+    max-markdown-bytes: ${FEISHU_MAX_MARKDOWN_BYTES:8000}
   extra-webhook:
     enabled: ${EXTRA_WEBHOOK_ENABLED:false}
     url: ${EXTRA_WEBHOOK_URL:}
