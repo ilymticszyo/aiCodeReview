@@ -40,6 +40,13 @@ public class CodeReviewServiceImpl implements CodeReviewService {
 
     private static final Map<String, String> FILE_EXT_TO_LANG = new HashMap<>();
     private static final Map<String, String> LANG_TO_PROMPT_KEY = new HashMap<>();
+    private static final List<Pattern> SCORE_PATTERNS = List.of(
+            Pattern.compile("AI_REVIEW_SCORE\\s*[:：=]\\s*(\\d{1,3})", Pattern.CASE_INSENSITIVE),
+            Pattern.compile("总\\s*评?分\\D{0,12}(\\d{1,3})(?:\\s*/\\s*100|\\s*分)?"),
+            Pattern.compile("最终\\s*得分\\D{0,12}(\\d{1,3})(?:\\s*/\\s*100|\\s*分)?"),
+            Pattern.compile("综合\\s*评分\\D{0,12}(\\d{1,3})(?:\\s*/\\s*100|\\s*分)?"),
+            Pattern.compile("(?m)^\\s*[-*|>\\s`_]*(?:评分|得分)[`_\\s|：:=-]*(\\d{1,3})(?:\\s*/\\s*100|\\s*分)?")
+    );
 
     static {
         FILE_EXT_TO_LANG.put(AiReviewConstants.FILE_EXT_PY, AiReviewConstants.LANG_PYTHON);
@@ -229,11 +236,17 @@ public class CodeReviewServiceImpl implements CodeReviewService {
         if (reviewText == null || reviewText.isBlank()) {
             return 0;
         }
-        Pattern pattern = Pattern.compile("总分[:：]\\s*(\\d+)分?");
-        Matcher matcher = pattern.matcher(reviewText);
-        if (matcher.find()) {
-            return Integer.parseInt(matcher.group(1));
+        for (Pattern pattern : SCORE_PATTERNS) {
+            Matcher matcher = pattern.matcher(reviewText);
+            while (matcher.find()) {
+                int score = Integer.parseInt(matcher.group(1));
+                if (score >= 0 && score <= 100) {
+                    return score;
+                }
+                log.warn("解析到超出范围的AI审查评分: {}", score);
+            }
         }
+        log.warn("未能从AI审查结果中解析评分");
         return 0;
     }
 
