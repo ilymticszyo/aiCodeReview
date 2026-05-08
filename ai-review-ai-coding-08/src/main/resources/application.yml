@@ -53,7 +53,7 @@ gitea:
 # Review Configuration
 review:
   supported-extensions: ${SUPPORTED_EXTENSIONS:.java,.py,.php,.yml,.vue,.go,.c,.cpp,.h,.js,.css,.md,.sql,.ts,.tsx,.jsx}
-  style: ${REVIEW_STYLE:humorous}
+  style: ${REVIEW_STYLE:sarcastic}
   max-tokens: ${REVIEW_MAX_TOKENS:10000}
   push-enabled: ${PUSH_REVIEW_ENABLED:true}
   only-protected-branches: ${MERGE_REVIEW_ONLY_PROTECTED_BRANCHES_ENABLED:true}
@@ -70,6 +70,7 @@ notification:
   feishu:
     enabled: ${FEISHU_ENABLED:true}
     webhook-url: ${FEISHU_WEBHOOK_URL:https://open.feishu.cn/open-apis/bot/v2/hook/17d947d2-9c3f-4bf5-b710-60fffe8a836f}
+    max-markdown-bytes: ${FEISHU_MAX_MARKDOWN_BYTES:8000}
   extra-webhook:
     enabled: ${EXTRA_WEBHOOK_ENABLED:false}
     url: ${EXTRA_WEBHOOK_URL:}
